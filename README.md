@@ -42,6 +42,6 @@ https://github.com/jonnerd154/StargateProject-software/pull/120
 Retro UI credit: The Retro interface itself is from the Polklabs project:
 https://github.com/polklabs/StargateProject-software/tree/Stargate-Retro-UI-Integration
 
-Marcin/Codex modification: this repository adapts that idea for SG1 v4 installs, adds the `retro/dial.html` / `retro/dial9.html` selector, and wires it into the local Stargate config/web-server flow.
+matelv-x/Codex modification: this repository adapts that idea for SG1 v4 installs, adds the `retro/dial.html` / `retro/dial9.html` selector, and wires it into the local Stargate config/web-server flow.
 
 How much is copied or changed: Small script-based config/web-server patch.
