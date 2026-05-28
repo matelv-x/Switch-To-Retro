@@ -2,8 +2,6 @@
 
 Adds/removes the home-page redirect to Retro `dial.html` or `dial9.html`.
 
-This repository is private while it is being checked and verified.
-
 ## Install
 
 Clone or unzip this add-on into `/home/pi`, then run:
