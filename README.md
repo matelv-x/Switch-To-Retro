@@ -50,7 +50,8 @@ sudo systemctl restart stargate.service
 ## Attribution and originality
 
 The home redirect/config idea was inspired by Polklabs project:
-https://github.com/polklabs/StargateProject-software/tree/Stargate-Retro-UI-Integration
+
+https://github.com/jonnerd154/StargateProject-software/pull/120
 
 matelv-x/Codex modification: this repository adapts that idea for SG1 v4 installs, adds the `retro/dial.html` / `retro/dial9.html` selector, and wires it into the local Stargate config/web-server flow.
 
