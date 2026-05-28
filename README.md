@@ -36,10 +36,7 @@ sudo systemctl restart stargate.service
 
 Original base project: StargateProject SG1 software from the BuildAStargate/Jordan/Kristian/Jonnerd project lineage.
 
-Additional source/idea credit: The home redirect/config idea was inspired by Jonnerd's StargateProject PR:
-https://github.com/jonnerd154/StargateProject-software/pull/120
-
-Retro UI credit: The Retro interface itself is from the Polklabs project:
+Additional source/idea credit: The home redirect/config idea was inspired by Polklabs project:
 https://github.com/polklabs/StargateProject-software/tree/Stargate-Retro-UI-Integration
 
 matelv-x/Codex modification: this repository adapts that idea for SG1 v4 installs, adds the `retro/dial.html` / `retro/dial9.html` selector, and wires it into the local Stargate config/web-server flow.
