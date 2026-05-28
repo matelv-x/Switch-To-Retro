@@ -2,6 +2,10 @@
 
 Adds/removes the home-page redirect to Retro `dial.html` or `dial9.html`.
 
+<img width="1318" height="213" alt="Retro_Switch" src="https://github.com/user-attachments/assets/0930d355-c3a0-4d6e-8f58-ada75638d099" />
+<img width="1343" height="201" alt="Retro-2" src="https://github.com/user-attachments/assets/d9b1467c-e35b-4144-b76d-b1310e257a26" />
+
+
 ## Install
 
 Method 1 — GitHub Clone (Recommended)
