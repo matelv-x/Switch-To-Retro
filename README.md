@@ -4,7 +4,7 @@ Adds/removes the home-page redirect to Retro `dial.html` or `dial9.html`.
 
 ## Install
 
-Clone or unzip this add-on into `/home/pi`, then run:
+Method 1 — GitHub Clone (Recommended)
 
 ```bash
 cd /home/pi
@@ -16,6 +16,19 @@ sudo APP_DIR=/home/pi/sg1_v4 ./switch-to-retro.sh true retro/dial.html
 sudo systemctl restart stargate.service
 ```
 
+## Method 2 — ZIP Download
+
+Download and extract the ZIP archive into:
+```bash
+/home/pi/Switch-To-Retro
+```
+Then run:
+```bash
+cd /home/pi/Switch-To-Retro
+chmod +x install.sh restore.sh
+sudo ./install.sh
+sudo systemctl restart stargate.service
+```
 ## Restore / uninstall
 
 ```bash
