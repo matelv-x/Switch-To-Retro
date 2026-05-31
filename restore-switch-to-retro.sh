@@ -64,6 +64,10 @@ address_book = app / "web/js/address_book.js"
 if address_book.exists():
     text = address_book.read_text(encoding="utf-8")
     text = text.replace(
+        "window.location = \\'/stargate/dial?address=",
+        "window.location = \\'index.htm?address=",
+    )
+    text = text.replace(
         "window.location = \\'/dial?address=",
         "window.location = \\'index.htm?address=",
     )

@@ -128,11 +128,14 @@ if "applyHomeRedirect(function()" not in index:
 address_book_path = app / "web" / "js" / "address_book.js"
 address_book = address_book_path.read_text(encoding="utf-8")
 original_dial_target = "window.location = \\'index.htm?address="
-retro_dial_target = "window.location = \\'/dial?address="
+legacy_retro_dial_target = "window.location = \\'/dial?address="
+retro_dial_target = "window.location = \\'/stargate/dial?address="
 if enable:
+    address_book = address_book.replace(legacy_retro_dial_target, retro_dial_target)
     address_book = address_book.replace(original_dial_target, retro_dial_target)
 else:
     address_book = address_book.replace(retro_dial_target, original_dial_target)
+    address_book = address_book.replace(legacy_retro_dial_target, original_dial_target)
 address_book_path.write_text(address_book, encoding="utf-8")
 
 retro_nav_path = app / "web" / "retro" / "js" / "navigation.js"
