@@ -38,6 +38,7 @@ backup_file() {
 backup_file "$APP_DIR/config/milkyway-config.json"
 backup_file "$APP_DIR/config/defaults-milkyway/config.json.dist"
 backup_file "$APP_DIR/web/index.htm"
+backup_file "$APP_DIR/web/js/address_book.js"
 backup_file "$APP_DIR/classes/web_server.py"
 
 python3 - "$APP_DIR" "$ENABLE_REDIRECT" "$REDIRECT_PAGE" <<'PY'
@@ -123,6 +124,16 @@ if "applyHomeRedirect(function()" not in index:
     else:
         raise SystemExit("Could not find index.htm startup block to wrap with applyHomeRedirect")
     index_path.write_text(index, encoding="utf-8")
+
+address_book_path = app / "web" / "js" / "address_book.js"
+address_book = address_book_path.read_text(encoding="utf-8")
+original_dial_target = "window.location = \\'index.htm?address="
+retro_dial_target = "window.location = \\'/dial?address="
+if enable:
+    address_book = address_book.replace(original_dial_target, retro_dial_target)
+else:
+    address_book = address_book.replace(retro_dial_target, original_dial_target)
+address_book_path.write_text(address_book, encoding="utf-8")
 
 retro_nav_path = app / "web" / "retro" / "js" / "navigation.js"
 if retro_nav_path.exists():

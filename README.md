@@ -45,6 +45,8 @@ sudo systemctl restart stargate.service
 
 - Adds config keys for Retro home redirect.
 - Supports `retro/dial.html` and `retro/dial9.html`.
+- Routes selections from the original Address Book through the active Retro
+  dialing page while the redirect is enabled.
 - Includes restore script to remove the redirect patch.
 
 ## Attribution and originality

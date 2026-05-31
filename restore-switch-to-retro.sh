@@ -60,6 +60,16 @@ if index.exists():
     index.write_text(text, encoding="utf-8")
     print("Cleaned: web/index.htm")
 
+address_book = app / "web/js/address_book.js"
+if address_book.exists():
+    text = address_book.read_text(encoding="utf-8")
+    text = text.replace(
+        "window.location = \\'/dial?address=",
+        "window.location = \\'index.htm?address=",
+    )
+    address_book.write_text(text, encoding="utf-8")
+    print("Cleaned: web/js/address_book.js")
+
 web_server = app / "classes/web_server.py"
 if web_server.exists():
     text = web_server.read_text(encoding="utf-8")
