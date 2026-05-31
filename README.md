@@ -49,6 +49,22 @@ sudo systemctl restart stargate.service
   dialing page while the redirect is enabled.
 - Includes restore script to remove the redirect patch.
 
+## Original Address Book behavior
+
+When `Switch-To-Retro` is enabled:
+
+- selecting a destination in the original SG1 Address Book opens the active
+  Retro dialing page;
+- the selected address is preserved;
+- Retro automatically begins dialing the selected glyphs.
+
+When `Switch-To-Retro` is not enabled, the original SG1 Address Book continues
+to open the original SG1 dialing interface. Installing the Retro folder alone
+does not change this behavior.
+
+Running `restore-switch-to-retro.sh` restores the original SG1 Address Book
+behavior.
+
 ## Attribution and originality
 
 The home redirect/config idea was inspired by Polklabs project:
