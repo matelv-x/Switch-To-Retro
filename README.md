@@ -10,7 +10,7 @@ Adds/removes the home-page redirect to Retro `dial.html` or `dial9.html`.
 
 ## Install
 
-Method 1 — GitHub Clone (Recommended)
+Method 1 — GitHub Clone - (Recommended)
 
 ```bash
 cd /home/pi
