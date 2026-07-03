@@ -1,5 +1,7 @@
 # Switch To Retro
 
+[![Downloads](https://img.shields.io/github/downloads/matelv-x/Switch-To-Retro/total?label=downloads)](https://github.com/matelv-x/Switch-To-Retro/releases)
+
 Adds/removes the home-page redirect to Retro `dial.html` or `dial9.html`.
 
 <img width="1318" height="213" alt="Retro_Switch" src="https://github.com/user-attachments/assets/0930d355-c3a0-4d6e-8f58-ada75638d099" />
