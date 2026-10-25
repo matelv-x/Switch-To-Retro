@@ -192,7 +192,9 @@ py_compile.compile("$APP_DIR/classes/web_server.py", cfile="/tmp/stargate_web_se
 PY
 rm -f /tmp/stargate_web_server_retro_check.pyc
 
-if command -v systemctl >/dev/null 2>&1; then
+if [ "${STARGATE_ADDON_NO_RESTART:-0}" = "1" ]; then
+  echo "Stargate restart deferred by add-on manager."
+elif command -v systemctl >/dev/null 2>&1; then
   sudo systemctl restart stargate.service || true
 fi
 
