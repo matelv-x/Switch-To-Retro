@@ -26,6 +26,10 @@ import sys
 from pathlib import Path
 
 app = Path(sys.argv[1])
+fan113_installed = (
+    (app / ".fan113-home-addon/state.json").is_file()
+    and (app / "web/js/fan113_home_config.js").is_file()
+)
 
 def write_json(path, data):
     path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
@@ -38,6 +42,14 @@ def latest_backup(path):
     )
     return matches[0] if matches else None
 
+def contains_fan113(value):
+    if not isinstance(value, dict):
+        return False
+    return (
+        value.get("value") == "fan113.html"
+        or "fan113.html" in value.get("enum_values", [])
+    )
+
 for rel in ("config/milkyway-config.json", "config/defaults-milkyway/config.json.dist"):
     path = app / rel
     if path.exists():
@@ -49,16 +61,43 @@ for rel in ("config/milkyway-config.json", "config/defaults-milkyway/config.json
             owned = isinstance(current, dict) and (
                 "stargate.local" in str(current.get("desc", ""))
                 or "retro dialing page" in str(current.get("desc", ""))
+                or (
+                    not fan113_installed
+                    and current.get("display_name") in (
+                        "Home Redirect Enabled",
+                        "Home Page",
+                    )
+                )
             )
             prior_value = prior.get(key)
             prior_owned = isinstance(prior_value, dict) and (
                 "stargate.local" in str(prior_value.get("desc", ""))
                 or "retro dialing page" in str(prior_value.get("desc", ""))
+                or (
+                    not fan113_installed
+                    and prior_value.get("display_name") in (
+                        "Home Redirect Enabled",
+                        "Home Page",
+                    )
+                )
             )
+            if contains_fan113(prior_value) and not fan113_installed:
+                # A stale backup from a previously removed FAN113 Home add-on
+                # must never reactivate that page during Switch To Retro removal.
+                prior_owned = True
             if key in prior and owned and not prior_owned:
                 data[key] = prior[key]
             elif owned:
                 data.pop(key, None)
+        if not fan113_installed:
+            page = data.get("web_home_redirect_page")
+            if isinstance(page, dict):
+                page["enum_values"] = [
+                    value for value in page.get("enum_values", [])
+                    if value != "fan113.html"
+                ]
+                if page.get("value") == "fan113.html":
+                    page["value"] = "retro/dial.html"
         write_json(path, data)
         print(f"Cleaned config keys: {rel}")
 
