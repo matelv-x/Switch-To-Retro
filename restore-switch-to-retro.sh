@@ -30,12 +30,35 @@ app = Path(sys.argv[1])
 def write_json(path, data):
     path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
 
+def latest_backup(path):
+    matches = sorted(
+        path.parent.glob(path.name + ".bak-retro-*"),
+        key=lambda item: item.stat().st_mtime_ns,
+        reverse=True,
+    )
+    return matches[0] if matches else None
+
 for rel in ("config/milkyway-config.json", "config/defaults-milkyway/config.json.dist"):
     path = app / rel
     if path.exists():
         data = json.loads(path.read_text(encoding="utf-8"))
-        data.pop("web_home_redirect_enabled", None)
-        data.pop("web_home_redirect_page", None)
+        backup = latest_backup(path)
+        prior = json.loads(backup.read_text(encoding="utf-8")) if backup else {}
+        for key in ("web_home_redirect_enabled", "web_home_redirect_page"):
+            current = data.get(key)
+            owned = isinstance(current, dict) and (
+                "stargate.local" in str(current.get("desc", ""))
+                or "retro dialing page" in str(current.get("desc", ""))
+            )
+            prior_value = prior.get(key)
+            prior_owned = isinstance(prior_value, dict) and (
+                "stargate.local" in str(prior_value.get("desc", ""))
+                or "retro dialing page" in str(prior_value.get("desc", ""))
+            )
+            if key in prior and owned and not prior_owned:
+                data[key] = prior[key]
+            elif owned:
+                data.pop(key, None)
         write_json(path, data)
         print(f"Cleaned config keys: {rel}")
 
@@ -65,16 +88,38 @@ if index.exists():
 address_book = app / "web/js/address_book.js"
 if address_book.exists():
     text = address_book.read_text(encoding="utf-8")
-    text = text.replace(
-        "window.location = \\'/stargate/dial?address=",
-        "window.location = \\'index.htm?address=",
-    )
-    text = text.replace(
-        "window.location = \\'/dial?address=",
-        "window.location = \\'index.htm?address=",
-    )
+    backup = latest_backup(address_book)
+    replacement = "window.location = \\'index.htm?address="
+    if backup:
+        prior = backup.read_text(encoding="utf-8")
+        for candidate in (
+            "window.location = \\'index.htm?address=",
+            "window.location = \\'/dial?address=",
+            "window.location = \\'/stargate/dial?address=",
+        ):
+            if candidate in prior:
+                replacement = candidate
+                break
+    text = text.replace("window.location = \\'/stargate/dial?address=", replacement)
     address_book.write_text(text, encoding="utf-8")
     print("Cleaned: web/js/address_book.js")
+
+retro_nav = app / "web/retro/js/navigation.js"
+if retro_nav.exists():
+    text = retro_nav.read_text(encoding="utf-8")
+    owned = '        <a href="/">Home</a>'
+    backup = latest_backup(retro_nav)
+    prior = None
+    if backup:
+        for line in backup.read_text(encoding="utf-8").splitlines():
+            if ">Home</a>" in line:
+                prior = line
+                break
+    if prior is None:
+        prior = "        <a ${isActive(dial9Chevron ? '/retro/dial9.html' : '/retro/dial.html')}>Home</a>"
+    text = text.replace(owned, prior, 1)
+    retro_nav.write_text(text, encoding="utf-8")
+    print("Cleaned: web/retro/js/navigation.js")
 
 web_server = app / "classes/web_server.py"
 if web_server.exists():
@@ -92,12 +137,12 @@ if web_server.exists():
         count=1,
     )
     text = re.sub(
-        r'\n\n    def get_home_dial_path\(self\):\n'
-        r'(?:        .*\n)+?'
-        r'        return "/" \+ page\n',
+        r'\n    def get_home_dial_path\(self\):\n.*?'
+        r'(?=\n    (?:#|def |@)|\Z)',
         "\n",
         text,
         count=1,
+        flags=re.DOTALL,
     )
     web_server.write_text(text, encoding="utf-8")
     print("Cleaned: classes/web_server.py")

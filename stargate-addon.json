@@ -1,5 +1,6 @@
 {
   "maintenance_contract": 1,
+  "uninstall_contract": 2,
   "id": "switch-to-retro",
   "name": "Switch To Retro",
   "repository": "matelv-x/Switch-To-Retro",
@@ -7,5 +8,6 @@
   "detect": {"all": [{"path": "web/js/home_redirect.js"}]},
   "install": {"argv": ["./switch-to-retro.sh", "true", "retro/dial.html"], "env": {"APP_DIR": "{sg1_root}"}, "timeout": 900},
   "uninstall": {"argv": ["./restore-switch-to-retro.sh"], "env": {"APP_DIR": "{sg1_root}"}, "timeout": 900},
+  "archive_integration_files": ["classes/web_server.py", "web/js/address_book.js", "web/retro/js/navigation.js"],
   "restart_required": true
 }

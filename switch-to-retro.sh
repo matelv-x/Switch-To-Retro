@@ -39,6 +39,7 @@ backup_file "$APP_DIR/config/milkyway-config.json"
 backup_file "$APP_DIR/config/defaults-milkyway/config.json.dist"
 backup_file "$APP_DIR/web/index.htm"
 backup_file "$APP_DIR/web/js/address_book.js"
+backup_file "$APP_DIR/web/retro/js/navigation.js"
 backup_file "$APP_DIR/classes/web_server.py"
 
 python3 - "$APP_DIR" "$ENABLE_REDIRECT" "$REDIRECT_PAGE" <<'PY'
